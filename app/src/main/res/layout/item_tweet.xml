@@ -20,7 +20,8 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="5dp"
         android:layout_toEndOf="@+id/ivProfileImage"
-        android:text="TextView" />
+        android:text="TextView"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvBody"
@@ -30,4 +31,14 @@
         android:layout_below="@+id/tvUserName"
         android:layout_alignStart="@+id/tvUserName"
         android:layout_alignBottom="@+id/ivProfileImage" />
+
+    <TextView
+        android:id="@+id/tvScreenName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
+        android:layout_toEndOf="@+id/tvUserName"
+        android:text="TextView"
+        android:textStyle="italic" />
 </RelativeLayout>

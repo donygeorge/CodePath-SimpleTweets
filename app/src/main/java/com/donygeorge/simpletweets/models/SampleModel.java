@@ -1,7 +1,6 @@
 package com.donygeorge.simpletweets.models;
 
 import com.donygeorge.simpletweets.MyDatabase;
-import com.donygeorge.simpletweets.models.SampleModel_Table;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
