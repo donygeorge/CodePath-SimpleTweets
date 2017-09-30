@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.donygeorge.simpletweets.R;
+import com.donygeorge.simpletweets.helpers.DateHelper;
 import com.donygeorge.simpletweets.models.Tweet;
 
 import java.util.List;
@@ -45,6 +46,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         holder.tvUserName.setText(tweet.user.name);
         holder.tvScreenName.setText("@" + tweet.user.screenName);
         holder.tvBody.setText(tweet.body);
+        holder.tvRelativeTime.setText(DateHelper.getRelativeTimeAgo(tweet.createdAt));
         Glide.with(mContext)
                 .load(tweet.user.profileImageUrl)
                 .into(holder.ivProfileImage);
@@ -63,6 +65,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         TextView tvUserName;
         @BindView(R.id.tvScreenName)
         TextView tvScreenName;
+        @BindView(R.id.tvRelativeTime)
+        TextView tvRelativeTime;
         @BindView(R.id.tvBody)
         TextView tvBody;
 
