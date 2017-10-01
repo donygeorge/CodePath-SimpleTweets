@@ -22,4 +22,14 @@
         android:layout_toEndOf="@+id/ivProfileImage"
         android:id="@+id/include" />
 
+    <ImageView
+        android:id="@+id/ivTweetImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/include"
+        android:layout_marginLeft="5dp"
+        android:layout_alignStart="@id/include"
+        android:layout_alignEnd="@id/include"
+        app:srcCompat="@color/colorPrimaryDark" />
+
 </RelativeLayout>

@@ -22,4 +22,15 @@
         android:layout_toEndOf="@+id/ivProfileImage"
         android:id="@+id/include" />
 
+    <VideoView
+        android:id="@+id/vvTweetVideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/include"
+        android:layout_alignStart="@id/include"
+        android:layout_below="@id/include"
+        android:layout_marginLeft="5dp"
+        android:visibility="visible"
+        app:srcCompat="@color/colorPrimaryDark" />
+
 </RelativeLayout>

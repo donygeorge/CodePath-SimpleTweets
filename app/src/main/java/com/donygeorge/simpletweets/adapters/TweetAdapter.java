@@ -3,15 +3,18 @@ package com.donygeorge.simpletweets.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
 import com.donygeorge.simpletweets.R;
 import com.donygeorge.simpletweets.helpers.DateHelper;
+import com.donygeorge.simpletweets.models.Media;
 import com.donygeorge.simpletweets.models.Tweet;
 
 import java.util.List;
@@ -19,7 +22,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> {
+public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.BaseViewHolder> {
 
     private List<Tweet> mTweets;
     private Context mContext;
@@ -29,18 +32,35 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         mContext = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(mContext);
 
-        View tweetView = inflater.inflate(R.layout.item_tweet, parent, false);
-        ViewHolder viewHolder = new ViewHolder(tweetView);
+        BaseViewHolder viewHolder;
+        View tweetView;
+
+        switch (Media.Type.values()[viewType]) {
+            case MEDIA_TYPE_PHOTO:
+                tweetView = inflater.inflate(R.layout.item_tweet_image, parent, false);
+                viewHolder = new ImageViewHolder(tweetView);
+                break;
+            case MEDIA_TYPE_GIF:
+            case MEDIA_TYPE_VIDEO:
+                tweetView = inflater.inflate(R.layout.item_tweet_video, parent, false);
+                viewHolder = new VideoViewHolder(tweetView);
+                break;
+            case MEDIA_TYPE_NONE:
+                default:
+                tweetView = inflater.inflate(R.layout.item_tweet, parent, false);
+                viewHolder = new BaseViewHolder(tweetView);
+                break;
+        }
 
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(BaseViewHolder holder, int position) {
         Tweet tweet = mTweets.get(position);
 
         holder.tvUserName.setText(tweet.user.name);
@@ -50,11 +70,33 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         Glide.with(mContext)
                 .load(tweet.user.profileImageUrl)
                 .into(holder.ivProfileImage);
+
+        Media.Type type = tweet.mediaType();
+        switch (type) {
+            case MEDIA_TYPE_PHOTO:
+                ImageViewHolder imageViewHolder = (ImageViewHolder)holder;
+                Glide.with(mContext)
+                        .load(tweet.media.url)
+                        .into(imageViewHolder.ivTweetImage);
+                break;
+            case MEDIA_TYPE_GIF:
+            case MEDIA_TYPE_VIDEO:
+                VideoViewHolder videoViewHolder = (VideoViewHolder)holder;
+                videoViewHolder.vvTweetVideo.setVideoPath(tweet.media.url);
+                break;
+            default:
+        }
     }
 
     @Override
     public int getItemCount() {
         return mTweets.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        Tweet tweet = mTweets.get(position);
+        return tweet.mediaType().ordinal();
     }
 
     public void clear() {
@@ -65,7 +107,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class BaseViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.ivProfileImage)
         ImageView ivProfileImage;
@@ -78,7 +120,29 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         @BindView(R.id.tvBody)
         TextView tvBody;
 
-        public ViewHolder(View itemView) {
+        public BaseViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
+    public static class ImageViewHolder extends BaseViewHolder {
+
+        @BindView(R.id.ivTweetImage)
+        ImageView ivTweetImage;
+
+        public ImageViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
+    public static class VideoViewHolder extends BaseViewHolder {
+
+        @BindView(R.id.vvTweetVideo)
+        VideoView vvTweetVideo;
+
+        public VideoViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

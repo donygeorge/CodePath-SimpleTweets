@@ -120,6 +120,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
+                srlTweets.setRefreshing(false);
             }
         });
     }
