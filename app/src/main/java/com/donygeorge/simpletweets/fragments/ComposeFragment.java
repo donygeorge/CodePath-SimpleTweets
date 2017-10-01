@@ -46,9 +46,13 @@ public class ComposeFragment extends DialogFragment {
         btCompose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.postTweet(etTweet.getText().toString());
-                etTweet.setText("");
-                dismiss();
+                String text = etTweet.getText().toString();
+                if (text.length() <= 140) {
+                    mListener.postTweet(text);
+                    etTweet.setText("");
+                    dismiss();
+                }
+                // TODO: Handle the error case
             }
         });
     }
