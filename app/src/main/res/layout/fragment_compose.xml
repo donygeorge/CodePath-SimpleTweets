@@ -1,0 +1,24 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.donygeorge.simpletweets.fragments.ComposeFragment">
+
+    <EditText
+        android:id="@+id/etTweet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:minLines="1"
+        android:padding="5dp"
+        tools:text="Sample tweet" />
+
+    <Button
+        android:id="@+id/btCompose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tweet"
+        android:layout_below="@+id/etTweet"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
