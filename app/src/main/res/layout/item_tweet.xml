@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="5dp"
+    android:descendantFocusability="blocksDescendants"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -11,6 +12,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="This is a sample tweet"
+        android:autoLink="all"
+        android:linksClickable="true"
         android:layout_below="@+id/tvScreenName"
         android:layout_alignStart="@+id/tvUserName" />
 
