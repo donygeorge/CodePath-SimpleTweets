@@ -17,12 +17,14 @@ import com.donygeorge.simpletweets.fragments.ComposeFragment;
 import com.donygeorge.simpletweets.helpers.EndlessRecyclerViewScrollListener;
 import com.donygeorge.simpletweets.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -77,7 +79,16 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
             }
         });
 
+        loadFromDB();
         populateTimeline(-1);
+    }
+
+    private void loadFromDB() {
+        List<Tweet> tweets = SQLite.select().from(Tweet.class).queryList();
+        for (Tweet tweet : tweets) {
+            mTweets.add(tweet);
+            mAdapter.notifyItemInserted(mTweets.size() - 1);
+        }
     }
 
     private void populateTimeline(final int totalItemsCount) {
@@ -96,6 +107,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         Tweet tweet = Tweet.fromJSON(response.getJSONObject(i));
+                        tweet.save();
                         mTweets.add(tweet);
                         mAdapter.notifyItemInserted(mTweets.size() - 1);
                     } catch (JSONException e) {
