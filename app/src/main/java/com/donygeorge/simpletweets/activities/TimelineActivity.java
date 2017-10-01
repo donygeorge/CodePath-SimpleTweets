@@ -1,5 +1,6 @@
 package com.donygeorge.simpletweets.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
@@ -68,7 +69,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
         fabCompose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                composeTweet();
+                composeTweet(null);
             }
         });
 
@@ -78,6 +79,18 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
                 populateTimeline(-1);
             }
         });
+
+        // Handle intent
+        Intent intent = getIntent();
+        String type = intent.getType();
+        if (Intent.ACTION_SEND.equals(intent.getAction()) && type != null) {
+            if ("text/plain".equals(type)) {
+                // Make sure to check whether returned data will be null.
+                String titleOfPage = intent.getStringExtra(Intent.EXTRA_SUBJECT);
+                String urlOfPage = intent.getStringExtra(Intent.EXTRA_TEXT);
+                composeTweet(titleOfPage + " " + urlOfPage);
+            }
+        }
 
         loadFromDB();
         populateTimeline(-1);
@@ -125,9 +138,9 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
         });
     }
 
-    private void composeTweet() {
+    private void composeTweet(String text) {
         FragmentManager fm = getSupportFragmentManager();
-        ComposeFragment composeDialogFragment = ComposeFragment.newInstance();
+        ComposeFragment composeDialogFragment = ComposeFragment.newInstance(text);
         composeDialogFragment.show(fm, "fragment_compose");
     }
 

@@ -23,13 +23,19 @@ public class ComposeFragment extends DialogFragment {
     Button btCompose;
 
     private ComposeFragmentListener mListener;
+    private static final String TEXT_KEY = "text";
 
     public ComposeFragment() {
         // Required empty public constructor
     }
 
-    public static  ComposeFragment newInstance() {
+    public static  ComposeFragment newInstance(String text) {
         ComposeFragment fragment = new ComposeFragment();
+        Bundle args = new Bundle();
+        if (text != null) {
+            args.putString(TEXT_KEY, text);
+        }
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -43,6 +49,11 @@ public class ComposeFragment extends DialogFragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        String text = getArguments().getString(TEXT_KEY);
+        if (text != null) {
+            etTweet.setText(text);
+        }
+
         btCompose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
