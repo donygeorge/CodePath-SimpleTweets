@@ -3,6 +3,7 @@ package com.donygeorge.simpletweets.activities;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,6 +38,8 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
 
     @BindView(R.id.rvTweets)
     RecyclerView rvTweets;
+    @BindView(R.id.srlTweets)
+    SwipeRefreshLayout srlTweets;
     @BindView(R.id.fabCompose)
     FloatingActionButton fabCompose;
 
@@ -67,10 +70,17 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
             }
         });
 
+        srlTweets.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                populateTimeline(-1);
+            }
+        });
+
         populateTimeline(-1);
     }
 
-    private void populateTimeline(int totalItemsCount) {
+    private void populateTimeline(final int totalItemsCount) {
         long maxId = -1;
         if (totalItemsCount > 0) {
             Tweet tweet = mTweets.get(totalItemsCount - 1);
@@ -79,6 +89,10 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
         mClient.getHomeTimeline(maxId, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                // Clear existing items (if required)
+                if (totalItemsCount < 0) {
+                    mAdapter.clear();
+                }
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         Tweet tweet = Tweet.fromJSON(response.getJSONObject(i));
@@ -88,6 +102,8 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
                         e.printStackTrace();
                     }
                 }
+                // Should be harmless even if this wasn't triggered by a push to refresh
+                srlTweets.setRefreshing(false);
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
