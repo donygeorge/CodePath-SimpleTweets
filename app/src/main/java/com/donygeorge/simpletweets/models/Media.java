@@ -69,9 +69,11 @@ public class Media {
 
         JSONArray variants = videoInfo.optJSONArray("variants");
         if (variants != null && variants.length() > 0) {
-            JSONObject variant = variants.getJSONObject(0);
-            if (variant.optString("content_type").equals("video/mp4")) {
-                return variant.optString("url");
+            for (int i = 0; i < variants.length(); i ++) {
+                JSONObject variant = variants.getJSONObject(i);
+                if (variant.optString("content_type").equals("video/mp4")) {
+                    return variant.optString("url");
+                }
             }
         }
         return null;

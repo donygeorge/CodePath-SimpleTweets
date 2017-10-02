@@ -2,12 +2,14 @@ package com.donygeorge.simpletweets.adapters;
 
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -82,7 +84,10 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.BaseViewHold
             case MEDIA_TYPE_GIF:
             case MEDIA_TYPE_VIDEO:
                 VideoViewHolder videoViewHolder = (VideoViewHolder)holder;
-                videoViewHolder.vvTweetVideo.setVideoPath(tweet.media.url);
+                videoViewHolder.vvTweetVideo.setMediaController(new MediaController(mContext));
+                Uri uri = Uri.parse(tweet.media.url); //Declare your url here.
+                videoViewHolder.vvTweetVideo.setVideoURI(uri);
+                videoViewHolder.vvTweetVideo.start();
                 break;
             default:
         }
