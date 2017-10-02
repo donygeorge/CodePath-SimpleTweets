@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.donygeorge.simpletweets.TwitterApplication;
 import com.donygeorge.simpletweets.TwitterClient;
 import com.donygeorge.simpletweets.adapters.TweetAdapter;
 import com.donygeorge.simpletweets.fragments.ComposeFragment;
+import com.donygeorge.simpletweets.helpers.DividerItemDecoration;
 import com.donygeorge.simpletweets.helpers.EndlessRecyclerViewScrollListener;
 import com.donygeorge.simpletweets.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -58,6 +60,8 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
         mLayoutManager = new LinearLayoutManager(this);
         rvTweets.setLayoutManager(mLayoutManager);
         rvTweets.setAdapter(mAdapter);
+        rvTweets.addItemDecoration(new DividerItemDecoration(this));
+        rvTweets.setItemAnimator(new DefaultItemAnimator());
         mScrollListener = new EndlessRecyclerViewScrollListener(mLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
