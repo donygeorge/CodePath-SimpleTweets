@@ -17,7 +17,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorAccent"
             app:layout_scrollFlags="scroll|enterAlways"
             android:alpha="1"
             android:weightSum="1">
@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:scaleType="fitStart"
-                android:padding="8dp"
+                android:padding="10dp"
                 android:src="@mipmap/logo" />
         </android.support.v7.widget.Toolbar>
 
