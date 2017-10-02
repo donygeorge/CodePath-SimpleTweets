@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.donygeorge.simpletweets.fragments.ComposeFragment">
 
@@ -11,12 +12,13 @@
         android:layout_height="wrap_content"
         app:counterEnabled="true"
         app:counterMaxLength="140"
+        android:padding="10dp"
         >
         <EditText
             android:id="@+id/etTweet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="10dp"
             android:hint="What's on your mind?"
             />
     </android.support.design.widget.TextInputLayout>
@@ -25,8 +27,11 @@
         android:id="@+id/btCompose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tweet"
         android:layout_below="@+id/tilTweet"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:background="@color/colorPrimary"
+        android:text="Tweet"
+        android:textColor="@android:color/background_light"
+        android:textStyle="bold" />
 
 </RelativeLayout>
