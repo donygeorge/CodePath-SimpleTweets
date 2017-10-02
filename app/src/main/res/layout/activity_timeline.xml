@@ -17,8 +17,9 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimaryDark"
+            android:background="@color/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
+            android:alpha="1"
             android:weightSum="1">
 
             <ImageView
@@ -26,7 +27,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:scaleType="fitStart"
-                android:src="@mipmap/twitter_logo" />
+                android:padding="8dp"
+                android:src="@mipmap/logo" />
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
