@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,10 +72,11 @@ public class ComposeFragment extends DialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof ComposeFragmentListener) {
-            mListener = (ComposeFragmentListener) context;
+        Fragment parent = getTargetFragment();
+        if (parent instanceof ComposeFragmentListener) {
+            mListener = (ComposeFragmentListener) parent;
         } else {
-            throw new RuntimeException(context.toString()
+            throw new RuntimeException(parent.toString()
                     + " must implement OnFragmentInteractionListener");
         }
     }
