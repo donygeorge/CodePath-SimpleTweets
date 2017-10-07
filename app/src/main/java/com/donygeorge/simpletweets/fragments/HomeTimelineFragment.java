@@ -66,6 +66,10 @@ public class HomeTimelineFragment extends TweetsListFragment implements ComposeF
         });
     }
 
+    boolean shouldSaveTweets() {
+        return true;
+    }
+
     private void composeTweet(String text) {
         FragmentManager fm = getFragmentManager();
         ComposeFragment composeDialogFragment = ComposeFragment.newInstance(text);

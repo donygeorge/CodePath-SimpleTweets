@@ -122,7 +122,9 @@ public abstract class TweetsListFragment extends Fragment {
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         Tweet tweet = Tweet.fromJSON(response.getJSONObject(i));
-                        tweet.save();
+                        if (shouldSaveTweets()) {
+                            tweet.save();
+                        }
                         mTweets.add(tweet);
                         mAdapter.notifyItemInserted(mTweets.size() - 1);
                     } catch (JSONException e) {
@@ -138,6 +140,10 @@ public abstract class TweetsListFragment extends Fragment {
                 srlTweets.setRefreshing(false);
             }
         });
+    }
+
+    boolean shouldSaveTweets() {
+        return false;
     }
 
     abstract void getTimeline(long maxId, JsonHttpResponseHandler handler);
