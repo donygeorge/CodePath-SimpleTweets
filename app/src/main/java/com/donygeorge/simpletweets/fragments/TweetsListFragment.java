@@ -19,6 +19,7 @@ import com.donygeorge.simpletweets.adapters.TweetAdapter;
 import com.donygeorge.simpletweets.helpers.DividerItemDecoration;
 import com.donygeorge.simpletweets.helpers.EndlessRecyclerViewScrollListener;
 import com.donygeorge.simpletweets.models.Tweet;
+import com.donygeorge.simpletweets.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
@@ -34,7 +35,7 @@ import cz.msebera.android.httpclient.Header;
 /**
  * A simple {@link Fragment} subclass.
  */
-public abstract class TweetsListFragment extends Fragment {
+public abstract class TweetsListFragment extends Fragment implements TweetAdapter.TweetAdapterListener {
 
     private TwitterClient mClient;
     private TweetAdapter mAdapter;
@@ -48,6 +49,10 @@ public abstract class TweetsListFragment extends Fragment {
     SwipeRefreshLayout srlTweets;
     @BindView(R.id.fabCompose)
     FloatingActionButton fabCompose;
+
+    public interface TweetSelectedListener {
+        public abstract void onUserSelected(User user);
+    }
 
     public TweetsListFragment() {
         // Required empty public constructor
@@ -63,7 +68,7 @@ public abstract class TweetsListFragment extends Fragment {
 
         mClient = TwitterApplication.getRestClient();
         mTweets = new ArrayList<>();
-        mAdapter = new TweetAdapter(mTweets);
+        mAdapter = new TweetAdapter(mTweets, this);
         mLayoutManager = new LinearLayoutManager(getContext());
         rvTweets.setLayoutManager(mLayoutManager);
         rvTweets.setAdapter(mAdapter);
@@ -91,6 +96,12 @@ public abstract class TweetsListFragment extends Fragment {
 
     TwitterClient getTwitterClient() {
         return mClient;
+    }
+
+    @Override
+    public void onItemPhotoSelected(View view, int position) {
+        Tweet tweet = mTweets.get(position);
+        ((TweetSelectedListener)getActivity()).onUserSelected(tweet.user);
     }
 
     void addTweets(List<Tweet> tweets) {

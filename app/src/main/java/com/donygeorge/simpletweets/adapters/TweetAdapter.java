@@ -25,9 +25,16 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.BaseViewHold
 
     private List<Tweet> mTweets;
     private Context mContext;
+    private TweetAdapterListener mListener;
 
-    public TweetAdapter(List<Tweet> tweets) {
+    public interface TweetAdapterListener {
+        public abstract void onItemPhotoSelected(View view, int position);
+    }
+
+    public TweetAdapter(List<Tweet> tweets, TweetAdapterListener listener)
+    {
         mTweets = tweets;
+        mListener = listener;
     }
 
     @Override
@@ -102,7 +109,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.BaseViewHold
         notifyDataSetChanged();
     }
 
-    public static class BaseViewHolder extends RecyclerView.ViewHolder {
+    public class BaseViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.ivProfileImage)
         ImageView ivProfileImage;
@@ -118,10 +125,20 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.BaseViewHold
         public BaseViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            ivProfileImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mListener != null) {
+                        int position = getAdapterPosition();
+                        mListener.onItemPhotoSelected(v, position);
+                    }
+                }
+            });
         }
     }
 
-    public static class ImageViewHolder extends BaseViewHolder {
+    public class ImageViewHolder extends BaseViewHolder {
 
         @BindView(R.id.ivTweetImage)
         ImageView ivTweetImage;
@@ -132,7 +149,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.BaseViewHold
         }
     }
 
-    public static class VideoViewHolder extends BaseViewHolder {
+    public class VideoViewHolder extends BaseViewHolder {
 
         @BindView(R.id.vvTweetVideo)
         VideoView vvTweetVideo;

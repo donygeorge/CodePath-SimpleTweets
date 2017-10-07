@@ -10,12 +10,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.donygeorge.simpletweets.R;
+import com.donygeorge.simpletweets.fragments.TweetsListFragment;
 import com.donygeorge.simpletweets.fragments.TweetsPagerAdapter;
+import com.donygeorge.simpletweets.models.User;
+
+import org.parceler.Parcels;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TimelineActivity extends AppCompatActivity {
+import static com.donygeorge.simpletweets.helpers.Constants.USER_KEY;
+
+public class TimelineActivity extends AppCompatActivity implements TweetsListFragment.TweetSelectedListener {
 
     @BindView(R.id.vpPager)
     ViewPager vpPager;
@@ -58,6 +64,13 @@ public class TimelineActivity extends AppCompatActivity {
 
     public void onProfileView(MenuItem item) {
         Intent i = new Intent(this, ProfileActivity.class);
+        startActivity(i);
+    }
+
+    @Override
+    public void onUserSelected(User user) {
+        Intent i = new Intent(this, ProfileActivity.class);
+        i.putExtra(USER_KEY, Parcels.wrap(user));
         startActivity(i);
     }
 }

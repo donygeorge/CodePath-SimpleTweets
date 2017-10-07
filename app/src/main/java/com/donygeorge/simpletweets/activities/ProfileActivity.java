@@ -16,13 +16,14 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.donygeorge.simpletweets.helpers.Constants.SCREEN_NAME_KEY;
+import static com.donygeorge.simpletweets.helpers.Constants.USER_KEY;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -48,29 +49,39 @@ public class ProfileActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
 
-        String screenName = getIntent().getStringExtra(SCREEN_NAME_KEY);
+        User user = (User)Parcels.unwrap(getIntent().getParcelableExtra(USER_KEY));
+        String screenName = (user != null) ? user.screenName : null;
         UserTimelineFragment fragment = UserTimelineFragment.newInstance(screenName);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.flContainer, fragment);
         transaction.commit();
 
-        mClient = TwitterApplication.getRestClient();
-        mClient.getUserInfo(new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                try {
-                    User user = User.fromJSON(response);
-                    getSupportActionBar().setTitle("@" + user.screenName);
-                    populateUserHeadline(user);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        if (user == null) {
+            mClient = TwitterApplication.getRestClient();
+            mClient.getUserInfo(new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    try {
+                        User user = User.fromJSON(response);
+                        populateUserHeadline(user);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        });
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    super.onFailure(statusCode, headers, throwable, errorResponse);
+                }
+            });
+        } else {
+            populateUserHeadline(user);
+        }
     }
 
     private void populateUserHeadline(User user) {
+        getSupportActionBar().setTitle("@" + user.screenName);
         tvName.setText(user.name);
         tvTagline.setText(user.tagline);
         tvFollowers.setText(user.followers + " Followers");
