@@ -1,9 +1,13 @@
 package com.donygeorge.simpletweets.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.donygeorge.simpletweets.R;
 import com.donygeorge.simpletweets.fragments.TweetsPagerAdapter;
@@ -17,6 +21,8 @@ public class TimelineActivity extends AppCompatActivity {
     ViewPager vpPager;
     @BindView(R.id.tlTabs)
     TabLayout tlTabs;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +30,7 @@ public class TimelineActivity extends AppCompatActivity {
         setContentView(R.layout.activity_timeline);
         ButterKnife.bind(this);
 
+        setSupportActionBar(toolbar);
         vpPager.setAdapter(new TweetsPagerAdapter(getSupportFragmentManager(), TimelineActivity.this));
         tlTabs.setupWithViewPager(vpPager);
 
@@ -41,5 +48,16 @@ public class TimelineActivity extends AppCompatActivity {
             }
         }
         */
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_timeline, menu);
+        return true;
+    }
+
+    public void onProfileView(MenuItem item) {
+        Intent i = new Intent(this, ProfileActivity.class);
+        startActivity(i);
     }
 }
