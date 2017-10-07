@@ -41,29 +41,39 @@ public class TwitterClient extends OAuthBaseClient {
 						context.getString(R.string.intent_scheme), context.getPackageName(), FALLBACK_URL));
 	}
 
+	private static RequestParams getTimelineParams(long maxId) {
+        RequestParams params = new RequestParams();
+        params.put("count", 25);
+        if (maxId >= 0) {
+            params.put("max_id", maxId);
+        }
+        params.put("include_entities", true);
+        return params;
+    }
+
 	public void getHomeTimeline(long maxId, AsyncHttpResponseHandler handler) {
 		String apiUrl = getApiUrl("statuses/home_timeline.json");
-		// Can specify query string params directly or through RequestParams.
-		RequestParams params = new RequestParams();
-		params.put("count", 25);
-		if (maxId >= 0) {
-			params.put("max_id", maxId);
-		}
-		params.put("include_entities", true);
+        RequestParams params = getTimelineParams(maxId);
 		client.get(apiUrl, params, handler);
 	}
 
 	public void getMentionsTimeline(long maxId, AsyncHttpResponseHandler handler) {
 		String apiUrl = getApiUrl("statuses/mentions_timeline.json");
-		// Can specify query string params directly or through RequestParams.
-		RequestParams params = new RequestParams();
-		params.put("count", 25);
-		if (maxId >= 0) {
-			params.put("max_id", maxId);
-		}
-		params.put("include_entities", true);
+        RequestParams params = getTimelineParams(maxId);
 		client.get(apiUrl, params, handler);
 	}
+
+    public void getUserTimeline(String screenName, long maxId, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("statuses/user_timeline.json");
+        RequestParams params = getTimelineParams(maxId);
+        params.put("screen_name", screenName);
+        client.get(apiUrl, params, handler);
+    }
+
+    public void getUserInfo(AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("account/verify_credentials.json");
+        client.get(apiUrl, null, handler);
+    }
 
     public void postTweet(String text, AsyncHttpResponseHandler handler) {
         String apiUrl = getApiUrl("statuses/update.json");
