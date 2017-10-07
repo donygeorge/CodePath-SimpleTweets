@@ -1,16 +1,22 @@
 package com.donygeorge.simpletweets.activities;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.donygeorge.simpletweets.R;
-import com.donygeorge.simpletweets.fragments.TweetsListFragment;
+import com.donygeorge.simpletweets.fragments.TweetsPagerAdapter;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class TimelineActivity extends AppCompatActivity {
 
-    private TweetsListFragment mTweetsListFragment;
+    @BindView(R.id.vpPager)
+    ViewPager vpPager;
+    @BindView(R.id.tlTabs)
+    TabLayout tlTabs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +24,8 @@ public class TimelineActivity extends AppCompatActivity {
         setContentView(R.layout.activity_timeline);
         ButterKnife.bind(this);
 
-        mTweetsListFragment = (TweetsListFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_timeline);
+        vpPager.setAdapter(new TweetsPagerAdapter(getSupportFragmentManager(), TimelineActivity.this));
+        tlTabs.setupWithViewPager(vpPager);
 
         // TODO: Fix this
         /*

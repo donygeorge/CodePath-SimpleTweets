@@ -1,4 +1,4 @@
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -30,7 +30,8 @@
         android:layout_margin="16dp"
         android:src="@drawable/ic_create_white_24dp"
         android:visibility="invisible"
-        app:layout_anchor="@id/rvTweets"
-        app:layout_anchorGravity="bottom|right|end" />
+        app:layout_anchor="@id/srlTweets"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true" />
 
-</android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>
