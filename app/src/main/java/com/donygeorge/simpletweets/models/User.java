@@ -25,6 +25,15 @@ public class User {
     public String screenName;
 
     @Column
+    public String tagline;
+
+    @Column
+    public int followers;
+
+    @Column
+    public int following;
+
+    @Column
     public String profileImageUrl;
 
     public static User fromJSON(JSONObject object) throws JSONException {
@@ -33,6 +42,9 @@ public class User {
         user.name = object.getString("name");
         user.uid = object.getLong("id");
         user.screenName = object.getString("screen_name");
+        user.tagline = object.getString("description");
+        user.followers = object.getInt("followers_count");
+        user.following = object.getInt("friends_count");
         user.profileImageUrl = object.getString("profile_image_url");
 
         return user;

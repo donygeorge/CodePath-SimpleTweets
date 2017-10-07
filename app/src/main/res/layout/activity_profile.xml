@@ -18,7 +18,65 @@
         android:id="@+id/rlUserHeader"
         android:layout_below="@id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivProfileImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="10dp"
+            app:srcCompat="@android:color/black" />
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/ivProfileImage"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="Sample Name" />
+
+        <TextView
+            android:id="@+id/tvTagline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/tvName"
+            android:layout_below="@id/tvName"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            tools:text="Sample Tag line" />
+
+        <LinearLayout
+            android:id="@+id/llCount"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/tvTagline"
+            android:layout_below="@id/tvTagline"
+            android:layout_marginTop="10dp" >
+
+            <TextView
+                android:id="@+id/tvFollowers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/darker_gray"
+                tools:text="3 Followers" />
+
+            <TextView
+                android:id="@+id/tvFollowing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textColor="@android:color/darker_gray"
+                tools:text="3 Following" />
+
+        </LinearLayout>
+
+
     </RelativeLayout>
 
     <FrameLayout
