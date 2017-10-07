@@ -2,7 +2,7 @@
 
 **SimpleTweets** is an android app that allows a user to view his Twitter timeline and post a new tweet. The app utilizes [Twitter REST API](https://developer.twitter.com/en/docs/api-reference-index).
 
-Time spent: **6** hours spent in total
+Time spent: **9** hours spent in total
 
 ## User Stories
 
@@ -51,18 +51,15 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+![Walkthrough: Portrait](https://user-images.githubusercontent.com/1111292/31061588-c8859636-a6d7-11e7-8917-50a887bab1f5.gif)
 
-GIF created with [LiceCap](http://www.cockos.com/licecap/).
-
-## Notes
-
-Describe any challenges encountered while building the app.
+GIF created with [ezgif](https://ezgif.com/video-to-gif).
 
 ## Open-source libraries used
 
 - [Android Async HTTP](https://github.com/loopj/android-async-http) - Simple asynchronous HTTP requests with JSON parsing
-- [Picasso](http://square.github.io/picasso/) - Image loading and caching library for Android
+- [Glide](https://github.com/bumptech/glide) - Image loading and caching library for Android
+- [ButterKnife](https://github.com/JakeWharton/butterknife) - Bind Android views and callbacks to fields and methods 
 
 ## License
 
