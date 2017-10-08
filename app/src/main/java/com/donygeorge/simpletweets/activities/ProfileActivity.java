@@ -51,6 +51,8 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
     TextView tvFollowing;
     @BindView(R.id.ivVerified)
     ImageView ivVerified;
+    @BindView(R.id.ivFollowing)
+    ImageView ivFollowing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +101,8 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
         tvFollowers.setText(user.followersCount + " Followers");
         tvFollowing.setText(user.followingCount + " Following");
         ivVerified.setVisibility(user.verified ? View.VISIBLE : View.INVISIBLE);
+        int followingId = user.following ? R.drawable.ic_following_active : R.drawable.ic_following;
+        ivFollowing.setBackground(getResources().getDrawable(followingId));
 
         Glide.with(this)
                 .load(user.profileImageUrl)
