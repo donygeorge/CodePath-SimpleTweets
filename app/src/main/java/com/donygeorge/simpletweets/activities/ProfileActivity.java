@@ -1,15 +1,19 @@
 package com.donygeorge.simpletweets.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.donygeorge.simpletweets.R;
 import com.donygeorge.simpletweets.TwitterApplication;
 import com.donygeorge.simpletweets.TwitterClient;
+import com.donygeorge.simpletweets.fragments.TweetsListFragment;
 import com.donygeorge.simpletweets.fragments.UserTimelineFragment;
 import com.donygeorge.simpletweets.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -25,7 +29,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.donygeorge.simpletweets.helpers.Constants.USER_KEY;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity implements TweetsListFragment.TweetSelectedListener {
 
     private TwitterClient mClient;
     @BindView(R.id.toolbar)
@@ -40,6 +44,8 @@ public class ProfileActivity extends AppCompatActivity {
     TextView tvFollowers;
     @BindView(R.id.tvFollowing)
     TextView tvFollowing;
+    @BindView(R.id.ivVerified)
+    ImageView ivVerified;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,9 +92,17 @@ public class ProfileActivity extends AppCompatActivity {
         tvTagline.setText(user.tagline);
         tvFollowers.setText(user.followers + " Followers");
         tvFollowing.setText(user.following + " Following");
+        ivVerified.setVisibility(user.verified ? View.VISIBLE : View.INVISIBLE);
 
         Glide.with(this)
                 .load(user.profileImageUrl)
                 .into(ivProfileImage);
+    }
+
+    @Override
+    public void onUserSelected(User user) {
+        Intent i = new Intent(this, ProfileActivity.class);
+        i.putExtra(USER_KEY, Parcels.wrap(user));
+        startActivity(i);
     }
 }

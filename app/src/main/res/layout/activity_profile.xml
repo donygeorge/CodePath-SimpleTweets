@@ -40,6 +40,15 @@
             android:textStyle="bold"
             tools:text="Sample Name" />
 
+        <ImageView
+            android:id="@+id/ivVerified"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/tvName"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/ic_verified"
+            android:visibility="invisible" />
+
         <TextView
             android:id="@+id/tvTagline"
             android:layout_width="wrap_content"
