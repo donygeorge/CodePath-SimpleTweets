@@ -3,6 +3,7 @@ package com.donygeorge.simpletweets.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.donygeorge.simpletweets.TwitterClient;
 import com.donygeorge.simpletweets.fragments.TweetsListFragment;
 import com.donygeorge.simpletweets.fragments.UserTimelineFragment;
 import com.donygeorge.simpletweets.helpers.MyJsonHttpResponseHandler;
+import com.donygeorge.simpletweets.helpers.SnackBarHelper;
 import com.donygeorge.simpletweets.models.User;
 
 import org.json.JSONException;
@@ -53,6 +55,8 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
     ImageView ivVerified;
     @BindView(R.id.ivFollowing)
     ImageView ivFollowing;
+    @BindView(R.id.lMain)
+    CoordinatorLayout lMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,11 +82,13 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
                         populateUserHeadline(user, true);
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        SnackBarHelper.displayError(lMain, FailureReason.FAILURE_REASON_UNKNOWN);
                     }
                 }
 
                 @Override
                 public void onFailure(FailureReason reason) {
+                    SnackBarHelper.displayError(lMain, reason);
                 }
             });
         } else {

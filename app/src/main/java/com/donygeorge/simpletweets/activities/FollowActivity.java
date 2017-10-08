@@ -7,6 +7,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.widget.RelativeLayout;
 
 import com.donygeorge.simpletweets.R;
 import com.donygeorge.simpletweets.TwitterApplication;
@@ -15,6 +16,7 @@ import com.donygeorge.simpletweets.adapters.UserAdapter;
 import com.donygeorge.simpletweets.helpers.DividerItemDecoration;
 import com.donygeorge.simpletweets.helpers.EndlessRecyclerViewScrollListener;
 import com.donygeorge.simpletweets.helpers.MyJsonHttpResponseHandler;
+import com.donygeorge.simpletweets.helpers.SnackBarHelper;
 import com.donygeorge.simpletweets.models.User;
 
 import org.json.JSONArray;
@@ -46,6 +48,8 @@ public class FollowActivity extends AppCompatActivity implements UserAdapter.Use
     Toolbar toolbar;
     @BindView(R.id.rvUsers)
     RecyclerView rvUsers;
+    @BindView(R.id.lMain)
+    RelativeLayout lMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +105,7 @@ public class FollowActivity extends AppCompatActivity implements UserAdapter.Use
 
             @Override
             public void onFailure(FailureReason reason) {
+                SnackBarHelper.displayError(lMain, reason);
             }
         };
         if (mShowFollowers) {

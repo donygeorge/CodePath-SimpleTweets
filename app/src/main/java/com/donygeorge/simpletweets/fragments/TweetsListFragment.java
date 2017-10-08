@@ -20,6 +20,7 @@ import com.donygeorge.simpletweets.adapters.TweetAdapter;
 import com.donygeorge.simpletweets.helpers.DividerItemDecoration;
 import com.donygeorge.simpletweets.helpers.EndlessRecyclerViewScrollListener;
 import com.donygeorge.simpletweets.helpers.MyJsonHttpResponseHandler;
+import com.donygeorge.simpletweets.helpers.SnackBarHelper;
 import com.donygeorge.simpletweets.models.Tweet;
 import com.donygeorge.simpletweets.models.User;
 
@@ -132,6 +133,7 @@ public abstract class TweetsListFragment
 
             @Override
             public void onFailure(FailureReason reason) {
+                SnackBarHelper.displayError(srlTweets, reason);
             }
         });
     }
@@ -148,6 +150,7 @@ public abstract class TweetsListFragment
 
             @Override
             public void onFailure(FailureReason reason) {
+                SnackBarHelper.displayError(srlTweets, reason);
             }
         });
     }
@@ -164,6 +167,7 @@ public abstract class TweetsListFragment
 
             @Override
             public void onFailure(FailureReason reason) {
+                SnackBarHelper.displayError(srlTweets, reason);
             }
         });
     }
@@ -191,6 +195,7 @@ public abstract class TweetsListFragment
 
             @Override
             public void onFailure(FailureReason reason) {
+                SnackBarHelper.displayError(srlTweets, reason);
             }
         });
     }
@@ -246,6 +251,7 @@ public abstract class TweetsListFragment
             @Override
             public void onFailure(FailureReason reason) {
                 srlTweets.setRefreshing(false);
+                SnackBarHelper.displayError(srlTweets, reason);
             }
         });
     }
@@ -282,6 +288,7 @@ public abstract class TweetsListFragment
 
             @Override
             public void onFailure(FailureReason reason) {
+                SnackBarHelper.displayError(srlTweets, reason);
             }
         });
     }
