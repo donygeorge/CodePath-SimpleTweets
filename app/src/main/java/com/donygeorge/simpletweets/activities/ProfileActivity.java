@@ -16,8 +16,8 @@ import com.donygeorge.simpletweets.TwitterApplication;
 import com.donygeorge.simpletweets.TwitterClient;
 import com.donygeorge.simpletweets.fragments.TweetsListFragment;
 import com.donygeorge.simpletweets.fragments.UserTimelineFragment;
+import com.donygeorge.simpletweets.helpers.MyJsonHttpResponseHandler;
 import com.donygeorge.simpletweets.models.User;
-import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,7 +25,6 @@ import org.parceler.Parcels;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cz.msebera.android.httpclient.Header;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.donygeorge.simpletweets.helpers.Constants.SEARCH_KEY;
@@ -73,28 +72,27 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
 
         if (user == null) {
             mClient = TwitterApplication.getRestClient();
-            mClient.getUserInfo(new JsonHttpResponseHandler() {
+            mClient.getUserInfo(new MyJsonHttpResponseHandler() {
                 @Override
-                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                public void onSuccess(JSONObject response) {
                     try {
                         User user = User.fromJSON(response);
-                        populateUserHeadline(user);
+                        populateUserHeadline(user, true);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
 
                 @Override
-                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                    super.onFailure(statusCode, headers, throwable, errorResponse);
+                public void onFailure(FailureReason reason) {
                 }
             });
         } else {
-            populateUserHeadline(user);
+            populateUserHeadline(user, false);
         }
     }
 
-    private void populateUserHeadline(User user) {
+    private void populateUserHeadline(User user, boolean self) {
         getSupportActionBar().setTitle("@" + user.screenName);
         tvName.setText(user.name);
         tvScreenName.setText("@" + user.screenName);
@@ -104,6 +102,7 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
         ivVerified.setVisibility(user.verified ? View.VISIBLE : View.INVISIBLE);
         int followingId = user.following ? R.drawable.ic_following_active : R.drawable.ic_following;
         ivFollowing.setBackground(getResources().getDrawable(followingId));
+        ivFollowing.setVisibility(self ? View.INVISIBLE : View.VISIBLE);
 
         Glide.with(this)
                 .load(user.profileImageUrl)

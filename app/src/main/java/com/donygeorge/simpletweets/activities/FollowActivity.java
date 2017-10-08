@@ -14,8 +14,8 @@ import com.donygeorge.simpletweets.TwitterClient;
 import com.donygeorge.simpletweets.adapters.UserAdapter;
 import com.donygeorge.simpletweets.helpers.DividerItemDecoration;
 import com.donygeorge.simpletweets.helpers.EndlessRecyclerViewScrollListener;
+import com.donygeorge.simpletweets.helpers.MyJsonHttpResponseHandler;
 import com.donygeorge.simpletweets.models.User;
-import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,7 +26,6 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cz.msebera.android.httpclient.Header;
 
 import static com.donygeorge.simpletweets.helpers.Constants.SHOW_FOLLOWERS_KEY;
 import static com.donygeorge.simpletweets.helpers.Constants.USER_KEY;
@@ -80,10 +79,9 @@ public class FollowActivity extends AppCompatActivity implements UserAdapter.Use
     }
 
     private void queryUsers() {
-        JsonHttpResponseHandler handler = new JsonHttpResponseHandler() {
+        MyJsonHttpResponseHandler handler = new MyJsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
+            public void onSuccess(JSONObject response) {
                 try {
                     JSONArray array = response.getJSONArray("users");
                     mCursor = response.getLong("next_cursor");
@@ -102,9 +100,7 @@ public class FollowActivity extends AppCompatActivity implements UserAdapter.Use
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-                throwable.printStackTrace();
+            public void onFailure(FailureReason reason) {
             }
         };
         if (mShowFollowers) {

@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.loopj.android.http.JsonHttpResponseHandler;
+import com.donygeorge.simpletweets.helpers.MyJsonHttpResponseHandler;
 
 public class MentionsFragment extends TweetsListFragment {
 
@@ -17,7 +17,7 @@ public class MentionsFragment extends TweetsListFragment {
         return v;
     }
 
-    void getTimeline(long maxId, JsonHttpResponseHandler handler) {
+    void getTimeline(long maxId, MyJsonHttpResponseHandler handler) {
         getTwitterClient().getMentionsTimeline(maxId, handler);
     }
 

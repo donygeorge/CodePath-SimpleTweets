@@ -19,9 +19,9 @@ import com.donygeorge.simpletweets.TwitterClient;
 import com.donygeorge.simpletweets.adapters.TweetAdapter;
 import com.donygeorge.simpletweets.helpers.DividerItemDecoration;
 import com.donygeorge.simpletweets.helpers.EndlessRecyclerViewScrollListener;
+import com.donygeorge.simpletweets.helpers.MyJsonHttpResponseHandler;
 import com.donygeorge.simpletweets.models.Tweet;
 import com.donygeorge.simpletweets.models.User;
-import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,7 +32,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cz.msebera.android.httpclient.Header;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -119,16 +118,20 @@ public abstract class TweetsListFragment
         if (mention.startsWith("@")) {
             mention = mention.substring(1);
         }
-        mClient.getUserInfo(mention, new JsonHttpResponseHandler() {
+        mClient.getUserInfo(mention, new MyJsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
+            public void onSuccess(JSONObject response) {
+                super.onSuccess(response);
                 try {
                     User user = User.fromJSON(response);
                     ((TweetSelectedListener)getActivity()).onUserSelected(user);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }
+
+            @Override
+            public void onFailure(FailureReason reason) {
             }
         });
     }
@@ -137,17 +140,14 @@ public abstract class TweetsListFragment
     public void onItemFavoriteSelected(View view, int position) {
         final Tweet tweet = mTweets.get(position);
         final boolean shouldFavorite = !tweet.favorited;
-        mClient.favoriteTweet(tweet, shouldFavorite, new JsonHttpResponseHandler() {
+        mClient.favoriteTweet(tweet, shouldFavorite, new MyJsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
+            public void onSuccess(JSONObject response) {
                 refetchTweet(tweet);
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-                throwable.printStackTrace();
+            public void onFailure(FailureReason reason) {
             }
         });
     }
@@ -156,26 +156,22 @@ public abstract class TweetsListFragment
     public void onItemRetweetSelected(View view, int position) {
         final Tweet tweet = mTweets.get(position);
         final boolean shouldRetweet = !tweet.retweeted;
-        mClient.retweet(tweet, shouldRetweet, new JsonHttpResponseHandler() {
+        mClient.retweet(tweet, shouldRetweet, new MyJsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
+            public void onSuccess(JSONObject response) {
                 refetchTweet(tweet);
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-                throwable.printStackTrace();
+            public void onFailure(FailureReason reason) {
             }
         });
     }
 
     private void refetchTweet(Tweet tweet) {
-        mClient.refetchTweet(tweet, new JsonHttpResponseHandler() {
+        mClient.refetchTweet(tweet, new MyJsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
+            public void onSuccess(JSONObject response) {
                 try {
                     Tweet updatedTweet = Tweet.fromJSON(response);
                     if (shouldSaveTweets()) {
@@ -194,9 +190,7 @@ public abstract class TweetsListFragment
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-                throwable.printStackTrace();
+            public void onFailure(FailureReason reason) {
             }
         });
     }
@@ -226,9 +220,9 @@ public abstract class TweetsListFragment
             Tweet tweet = mTweets.get(totalItemsCount - 1);
             maxId = tweet.uid - 1;
         }
-        getTimeline(maxId, new JsonHttpResponseHandler() {
+        getTimeline(maxId, new MyJsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+            public void onSuccess(JSONArray response) {
                 // Clear existing items (if required)
                 if (totalItemsCount < 0) {
                     mAdapter.clear();
@@ -250,20 +244,7 @@ public abstract class TweetsListFragment
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-                srlTweets.setRefreshing(false);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-                srlTweets.setRefreshing(false);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                super.onFailure(statusCode, headers, responseString, throwable);
+            public void onFailure(FailureReason reason) {
                 srlTweets.setRefreshing(false);
             }
         });
@@ -286,9 +267,9 @@ public abstract class TweetsListFragment
 
     @Override
     public void postTweet(String text, final long inReplyTo) {
-        getTwitterClient().postTweet(text, inReplyTo, new JsonHttpResponseHandler() {
+        getTwitterClient().postTweet(text, inReplyTo, new MyJsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject object) {
+            public void onSuccess(JSONObject object) {
                 try {
                     Tweet tweet = Tweet.fromJSON(object);
                     if (shouldInsertTweets()) {
@@ -298,13 +279,12 @@ public abstract class TweetsListFragment
                     e.printStackTrace();
                 }
             }
+
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject object) {
-                // TODO: Handle error
-                super.onFailure(statusCode, headers, throwable, object);
+            public void onFailure(FailureReason reason) {
             }
         });
     }
 
-    abstract void getTimeline(long maxId, JsonHttpResponseHandler handler);
+    abstract void getTimeline(long maxId, MyJsonHttpResponseHandler handler);
 }

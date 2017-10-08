@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.loopj.android.http.JsonHttpResponseHandler;
+import com.donygeorge.simpletweets.helpers.MyJsonHttpResponseHandler;
 
 import static com.donygeorge.simpletweets.helpers.Constants.SCREEN_NAME_KEY;
 
@@ -27,7 +27,7 @@ public class UserTimelineFragment extends TweetsListFragment {
         return v;
     }
 
-    void getTimeline(long maxId, JsonHttpResponseHandler handler) {
+    void getTimeline(long maxId, MyJsonHttpResponseHandler handler) {
         String screenName = getArguments().getString(SCREEN_NAME_KEY);
         getTwitterClient().getUserTimeline(screenName, maxId, handler);
     }

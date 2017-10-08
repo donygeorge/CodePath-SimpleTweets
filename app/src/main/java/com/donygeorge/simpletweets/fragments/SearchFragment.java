@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.donygeorge.simpletweets.helpers.MyJsonHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
@@ -36,34 +37,23 @@ public class SearchFragment extends TweetsListFragment {
         return v;
     }
 
-    void getTimeline(long maxId, final JsonHttpResponseHandler handler) {
-        getTwitterClient().getSearchTimeline(mQuery, maxId, new JsonHttpResponseHandler() {
+    void getTimeline(long maxId, final MyJsonHttpResponseHandler handler) {
+        getTwitterClient().getSearchTimeline(mQuery, maxId, new MyJsonHttpResponseHandler() {
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            public void onSuccess(JSONObject response) {
                 try {
                     JSONArray results = response.getJSONArray("statuses");
-                    handler.onSuccess(statusCode, headers, results);
+                    handler.onSuccess(results);
                 } catch (JSONException e) {
-                    handler.onFailure(statusCode, headers, e, (JSONObject)null);
+                    handler.onFailure(FailureReason.FAILURE_REASON_UNKNOWN);
                 }
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                handler.onFailure(statusCode, headers, throwable, errorResponse);
+            public void onFailure(FailureReason reason) {
+                handler.onFailure(reason);
             }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                handler.onFailure(statusCode, headers, throwable, errorResponse);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                handler.onFailure(statusCode, headers, responseString, throwable);
-            }
-
         });
     }
 

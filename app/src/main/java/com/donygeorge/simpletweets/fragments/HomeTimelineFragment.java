@@ -5,8 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.donygeorge.simpletweets.helpers.MyJsonHttpResponseHandler;
 import com.donygeorge.simpletweets.models.Tweet;
-import com.loopj.android.http.JsonHttpResponseHandler;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.List;
@@ -36,7 +36,7 @@ public class HomeTimelineFragment extends TweetsListFragment {
         addTweets(tweets);
     }
 
-    void getTimeline(long maxId, JsonHttpResponseHandler handler) {
+    void getTimeline(long maxId, MyJsonHttpResponseHandler handler) {
         getTwitterClient().getHomeTimeline(maxId, handler);
     }
 

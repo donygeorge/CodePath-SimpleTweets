@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.donygeorge.simpletweets.R;
-import com.donygeorge.simpletweets.TwitterClient;
 import com.donygeorge.simpletweets.fragments.SearchFragment;
 import com.donygeorge.simpletweets.fragments.TweetsListFragment;
 import com.donygeorge.simpletweets.models.User;
@@ -21,8 +20,6 @@ import static com.donygeorge.simpletweets.helpers.Constants.SEARCH_KEY;
 import static com.donygeorge.simpletweets.helpers.Constants.USER_KEY;
 
 public class SearchActivity extends AppCompatActivity implements TweetsListFragment.TweetSelectedListener {
-
-    private TwitterClient mClient;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
