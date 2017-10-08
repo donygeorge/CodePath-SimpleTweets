@@ -9,6 +9,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -199,7 +200,7 @@ public abstract class TweetsListFragment
         long maxId = -1;
         if (totalItemsCount > 0) {
             Tweet tweet = mTweets.get(totalItemsCount - 1);
-            maxId = tweet.uid;
+            maxId = tweet.uid - 1;
         }
         getTimeline(maxId, new JsonHttpResponseHandler() {
             @Override
