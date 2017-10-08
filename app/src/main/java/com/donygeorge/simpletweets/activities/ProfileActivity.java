@@ -28,6 +28,7 @@ import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.donygeorge.simpletweets.helpers.Constants.SEARCH_KEY;
 import static com.donygeorge.simpletweets.helpers.Constants.SHOW_FOLLOWERS_KEY;
 import static com.donygeorge.simpletweets.helpers.Constants.USER_KEY;
 
@@ -129,6 +130,13 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
     public void onUserSelected(User user) {
         Intent i = new Intent(this, ProfileActivity.class);
         i.putExtra(USER_KEY, Parcels.wrap(user));
+        startActivity(i);
+    }
+
+    @Override
+    public void onHashtagSelected(String hashtag) {
+        Intent i = new Intent(this, SearchActivity.class);
+        i.putExtra(SEARCH_KEY, hashtag);
         startActivity(i);
     }
 }

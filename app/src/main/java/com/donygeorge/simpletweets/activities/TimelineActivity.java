@@ -103,4 +103,11 @@ public class TimelineActivity extends AppCompatActivity implements TweetsListFra
         i.putExtra(USER_KEY, Parcels.wrap(user));
         startActivity(i);
     }
+
+    @Override
+    public void onHashtagSelected(String hashtag) {
+        Intent i = new Intent(this, SearchActivity.class);
+        i.putExtra(SEARCH_KEY, hashtag);
+        startActivity(i);
+    }
 }

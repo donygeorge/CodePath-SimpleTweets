@@ -13,10 +13,12 @@ import android.widget.VideoView;
 import com.bumptech.glide.Glide;
 import com.donygeorge.simpletweets.R;
 import com.donygeorge.simpletweets.helpers.DateHelper;
+import com.donygeorge.simpletweets.helpers.PatternEditableBuilder;
 import com.donygeorge.simpletweets.models.Media;
 import com.donygeorge.simpletweets.models.Tweet;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +34,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.BaseViewHold
         public abstract void onItemFavoriteSelected(View view, int position);
         public abstract void onItemRetweetSelected(View view, int position);
         public abstract void onItemReplySelected(View view, int position);
+        public abstract void onHashtagClicked(String hashtag);
+        public abstract void onMentionClicked(String mention);
     }
 
     public TweetAdapter(List<Tweet> tweets, TweetAdapterListener listener)
@@ -73,6 +77,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.BaseViewHold
         holder.tvUserName.setText(tweet.user.name);
         holder.tvScreenName.setText("@" + tweet.user.screenName);
         holder.tvBody.setText(tweet.body);
+        setupClickableSpan(holder.tvBody);
         holder.tvRelativeTime.setText(DateHelper.getRelativeTimeAgo(tweet.createdAt));
         Glide.with(mContext)
                 .load(tweet.user.profileImageUrl)
@@ -96,6 +101,25 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.BaseViewHold
         int favoriteId = tweet.favorited ? R.drawable.ic_favorite_active : R.drawable.ic_favorite;
         holder.ivRetweet.setBackground(mContext.getResources().getDrawable(retweetId));
         holder.ivFavorite.setBackground(mContext.getResources().getDrawable(favoriteId));
+    }
+
+    private void setupClickableSpan(TextView textView) {
+        PatternEditableBuilder builder = new PatternEditableBuilder();
+        builder.addPattern(Pattern.compile("\\@(\\w+)"), R.color.colorPrimary,
+                new PatternEditableBuilder.SpannableClickedListener() {
+                    @Override
+                    public void onSpanClicked(String text) {
+                        mListener.onMentionClicked(text);
+                    }
+                }).into(textView);
+
+        builder.addPattern(Pattern.compile("\\#(\\w+)"), R.color.colorPrimary,
+                new PatternEditableBuilder.SpannableClickedListener() {
+                    @Override
+                    public void onSpanClicked(String text) {
+                        mListener.onHashtagClicked(text);
+                    }
+                }).into(textView);
     }
 
     @Override

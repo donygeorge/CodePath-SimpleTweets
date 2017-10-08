@@ -9,7 +9,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +56,7 @@ public abstract class TweetsListFragment
 
     public interface TweetSelectedListener {
         public abstract void onUserSelected(User user);
+        public abstract void onHashtagSelected(String hashtag);
     }
 
     public TweetsListFragment() {
@@ -107,6 +107,30 @@ public abstract class TweetsListFragment
     public void onItemPhotoSelected(View view, int position) {
         Tweet tweet = mTweets.get(position);
         ((TweetSelectedListener)getActivity()).onUserSelected(tweet.user);
+    }
+
+    @Override
+    public void onHashtagClicked(String hashtag) {
+        ((TweetSelectedListener)getActivity()).onHashtagSelected(hashtag);
+    }
+
+    @Override
+    public void onMentionClicked(String mention) {
+        if (mention.startsWith("@")) {
+            mention = mention.substring(1);
+        }
+        mClient.getUserInfo(mention, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    User user = User.fromJSON(response);
+                    ((TweetSelectedListener)getActivity()).onUserSelected(user);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override
