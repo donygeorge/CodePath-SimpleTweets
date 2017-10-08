@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -35,8 +35,8 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
 
     private TwitterClient mClient;
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    @BindView(R.id.rlUserHeader)
+    RelativeLayout rlUserHeader;
     @BindView(R.id.ivProfileImage)
     CircleImageView ivProfileImage;
     @BindView(R.id.tvName)
@@ -59,8 +59,6 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         ButterKnife.bind(this);
-
-        setSupportActionBar(toolbar);
 
         User user = (User)Parcels.unwrap(getIntent().getParcelableExtra(USER_KEY));
         String screenName = (user != null) ? user.screenName : null;
@@ -93,14 +91,13 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
     }
 
     private void populateUserHeadline(User user, boolean self) {
-        getSupportActionBar().setTitle("@" + user.screenName);
         tvName.setText(user.name);
         tvScreenName.setText("@" + user.screenName);
         tvTagline.setText(user.tagline);
         tvFollowers.setText(user.followersCount + " Followers");
         tvFollowing.setText(user.followingCount + " Following");
         ivVerified.setVisibility(user.verified ? View.VISIBLE : View.INVISIBLE);
-        int followingId = user.following ? R.drawable.ic_following_active : R.drawable.ic_following;
+        int followingId = user.following ? R.drawable.ic_following_active_white : R.drawable.ic_following_white;
         ivFollowing.setBackground(getResources().getDrawable(followingId));
         ivFollowing.setVisibility(self ? View.INVISIBLE : View.VISIBLE);
 

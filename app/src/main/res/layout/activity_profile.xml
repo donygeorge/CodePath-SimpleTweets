@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,123 +7,127 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
     tools:context="com.donygeorge.simpletweets.activities.ProfileActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+
+    <android.support.design.widget.AppBarLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/appBar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorAccent"
-        android:weightSum="1"/>
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-    <RelativeLayout
-        android:id="@+id/rlUserHeader"
-        android:layout_below="@id/toolbar"
-        android:padding="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/rlUserHeader"
+            android:padding="10dp"
+            app:layout_scrollFlags="scroll|enterAlways"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/ivProfileImage"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="10dp"
-            app:srcCompat="@android:color/black" />
-
-        <ImageView
-            android:id="@+id/ivFollowing"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="5dp"
-            android:background="@drawable/ic_following" />
-
-        <LinearLayout
-            android:id="@+id/llName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/ivProfileImage"
-            android:layout_toLeftOf="@id/ivFollowing"
-            android:layout_marginLeft="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivProfileImage"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/ivProfileImage"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                tools:text="Sample Name" />
+                android:layout_marginRight="10dp"
+                app:srcCompat="@android:color/black" />
 
             <ImageView
-                android:id="@+id/ivVerified"
+                android:id="@+id/ivFollowing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/tvName"
-                android:layout_marginLeft="5dp"
-                android:background="@drawable/ic_verified"
-                android:visibility="invisible" />
+                android:layout_alignParentEnd="true"
+                android:layout_margin="5dp"
+                android:background="@drawable/ic_following" />
 
-        </LinearLayout>
-
-
-        <TextView
-            android:id="@+id/tvScreenName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="\@johndoe"
-            android:textStyle="italic"
-            android:layout_below="@id/llName"
-            android:layout_alignStart="@id/llName" />
-
-        <TextView
-            android:id="@+id/tvTagline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@id/tvScreenName"
-            android:layout_below="@id/tvScreenName"
-            android:textColor="@android:color/black"
-            android:textSize="12sp"
-            tools:text="Sample Tag line" />
-
-        <LinearLayout
-            android:id="@+id/llCount"
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@id/tvTagline"
-            android:layout_below="@id/tvTagline"
-            android:layout_marginTop="10dp" >
-
-            <TextView
-                android:id="@+id/tvFollowers"
+            <LinearLayout
+                android:id="@+id/llName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/darker_gray"
-                tools:text="3 Followers" />
-
-            <TextView
-                android:id="@+id/tvFollowing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/ivProfileImage"
+                android:layout_toLeftOf="@id/ivFollowing"
                 android:layout_marginLeft="10dp"
-                android:textColor="@android:color/darker_gray"
-                tools:text="3 Following" />
+                android:orientation="horizontal">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/ivProfileImage"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:text="Sample Name" />
+
+                <ImageView
+                    android:id="@+id/ivVerified"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/tvName"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/ic_verified_white"
+                    android:visibility="invisible" />
+
+            </LinearLayout>
 
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/tvScreenName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="\@johndoe"
+                android:textStyle="italic"
+                android:layout_below="@id/llName"
+                android:layout_alignStart="@id/llName" />
+
+            <TextView
+                android:id="@+id/tvTagline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@id/tvScreenName"
+                android:layout_below="@id/tvScreenName"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                tools:text="Sample Tag line" />
+
+            <LinearLayout
+                android:id="@+id/llCount"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@id/tvTagline"
+                android:layout_below="@id/tvTagline"
+                android:layout_marginTop="10dp" >
+
+                <TextView
+                    android:id="@+id/tvFollowers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    tools:text="3 Followers" />
+
+                <TextView
+                    android:id="@+id/tvFollowing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@android:color/white"
+                    tools:text="3 Following" />
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+    </android.support.design.widget.AppBarLayout>
 
     <FrameLayout
         android:id="@+id/flContainer"
-        android:layout_below="@id/rlUserHeader"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
 
     </FrameLayout>
 
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
