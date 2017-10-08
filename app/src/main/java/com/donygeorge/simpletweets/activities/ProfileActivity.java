@@ -1,5 +1,6 @@
 package com.donygeorge.simpletweets.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -27,17 +28,21 @@ import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.donygeorge.simpletweets.helpers.Constants.SHOW_FOLLOWERS_KEY;
 import static com.donygeorge.simpletweets.helpers.Constants.USER_KEY;
 
 public class ProfileActivity extends AppCompatActivity implements TweetsListFragment.TweetSelectedListener {
 
     private TwitterClient mClient;
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.ivProfileImage)
     CircleImageView ivProfileImage;
     @BindView(R.id.tvName)
     TextView tvName;
+    @BindView(R.id.tvScreenName)
+    TextView tvScreenName;
     @BindView(R.id.tvTagline)
     TextView tvTagline;
     @BindView(R.id.tvFollowers)
@@ -89,14 +94,31 @@ public class ProfileActivity extends AppCompatActivity implements TweetsListFrag
     private void populateUserHeadline(User user) {
         getSupportActionBar().setTitle("@" + user.screenName);
         tvName.setText(user.name);
+        tvScreenName.setText("@" + user.screenName);
         tvTagline.setText(user.tagline);
-        tvFollowers.setText(user.followers + " Followers");
-        tvFollowing.setText(user.following + " Following");
+        tvFollowers.setText(user.followersCount + " Followers");
+        tvFollowing.setText(user.followingCount + " Following");
         ivVerified.setVisibility(user.verified ? View.VISIBLE : View.INVISIBLE);
 
         Glide.with(this)
                 .load(user.profileImageUrl)
                 .into(ivProfileImage);
+
+        setupFollowClickListeners(tvFollowers, user, true);
+        setupFollowClickListeners(tvFollowing, user, false);
+    }
+
+    private void setupFollowClickListeners(TextView textView, final User user, final boolean showFollowers) {
+        final Context context = this;
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, FollowActivity.class);
+                i.putExtra(USER_KEY, Parcels.wrap(user));
+                i.putExtra(SHOW_FOLLOWERS_KEY, showFollowers);
+                startActivity(i);
+            }
+        });
     }
 
     @Override

@@ -76,6 +76,27 @@ public class TwitterClient extends OAuthBaseClient {
         client.get(apiUrl, null, handler);
     }
 
+    private static RequestParams getUserParams(long uid, long cursor) {
+        RequestParams params = new RequestParams();
+        params.put("id", uid);
+        if (cursor >= 0) {
+            params.put("cursor", cursor);
+        }
+        return params;
+    }
+
+    public void getFollowers(long uid, long cursor, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("followers/list.json");
+        RequestParams params = getUserParams(uid, cursor);
+        client.get(apiUrl, params, handler);
+    }
+
+    public void getFriends(long uid, long cursor, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("followers/list.json");
+        RequestParams params = getUserParams(uid, cursor);
+        client.get(apiUrl, params, handler);
+    }
+
     public void refetchTweet(Tweet tweet, AsyncHttpResponseHandler handler) {
         String apiUrl = getApiUrl("statuses/show/" + tweet.uid + ".json");
         RequestParams params = new RequestParams();

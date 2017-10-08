@@ -28,10 +28,13 @@ public class User {
     public String tagline;
 
     @Column
-    public int followers;
+    public int followersCount;
 
     @Column
-    public int following;
+    public int followingCount;
+
+    @Column
+    public boolean following;
 
     @Column
     public boolean verified;
@@ -46,9 +49,10 @@ public class User {
         user.uid = object.getLong("id");
         user.screenName = object.getString("screen_name");
         user.tagline = object.getString("description");
-        user.followers = object.getInt("followers_count");
-        user.following = object.getInt("friends_count");
+        user.followersCount = object.getInt("followers_count");
+        user.followingCount = object.getInt("friends_count");
         user.verified = object.optBoolean("verified", false);
+        user.following = object.optBoolean("following", false);
         user.profileImageUrl = object.getString("profile_image_url");
 
         return user;

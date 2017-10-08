@@ -50,11 +50,20 @@
             android:visibility="invisible" />
 
         <TextView
+            android:id="@+id/tvScreenName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="\@johndoe"
+            android:textStyle="italic"
+            android:layout_below="@id/tvName"
+            android:layout_alignStart="@id/tvName" />
+
+        <TextView
             android:id="@+id/tvTagline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@id/tvName"
-            android:layout_below="@id/tvName"
+            android:layout_alignStart="@id/tvScreenName"
+            android:layout_below="@id/tvScreenName"
             android:textColor="@android:color/black"
             android:textSize="12sp"
             tools:text="Sample Tag line" />
