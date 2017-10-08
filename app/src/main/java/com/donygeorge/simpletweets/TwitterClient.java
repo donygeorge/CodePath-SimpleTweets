@@ -113,7 +113,7 @@ public class TwitterClient extends OAuthBaseClient {
     }
 
     public void getFriends(long uid, long cursor, MyJsonHttpResponseHandler handler) {
-        String apiUrl = getApiUrl("followers/list.json");
+        String apiUrl = getApiUrl("friends/list.json");
         RequestParams params = getUserParams(uid, cursor);
         get(apiUrl, params, handler);
     }
