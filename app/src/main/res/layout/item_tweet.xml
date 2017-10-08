@@ -16,10 +16,18 @@
         app:srcCompat="@android:color/black" />
 
     <include
+        android:id="@+id/include"
         layout="@layout/tweet_body_base"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/ivProfileImage"
-        android:id="@+id/include" />
+        android:layout_toEndOf="@+id/ivProfileImage" />
+
+    <include
+        layout="@layout/tweet_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/include"
+        android:layout_alignStart="@id/include"
+        android:layout_alignEnd="@id/include" />
 
 </RelativeLayout>

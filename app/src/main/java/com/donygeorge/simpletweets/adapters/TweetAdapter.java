@@ -29,6 +29,9 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.BaseViewHold
 
     public interface TweetAdapterListener {
         public abstract void onItemPhotoSelected(View view, int position);
+        public abstract void onItemFavoriteSelected(View view, int position);
+        public abstract void onItemRetweetSelected(View view, int position);
+        public abstract void onItemReplySelected(View view, int position);
     }
 
     public TweetAdapter(List<Tweet> tweets, TweetAdapterListener listener)
@@ -88,6 +91,11 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.BaseViewHold
                 // TODO: Support video playback
             default:
         }
+
+        int retweetId = tweet.retweeted ? R.drawable.ic_retweet_active : R.drawable.ic_retweet;
+        int favoriteId = tweet.favorited ? R.drawable.ic_favorite_active : R.drawable.ic_favorite;
+        holder.ivRetweet.setBackground(mContext.getResources().getDrawable(retweetId));
+        holder.ivFavorite.setBackground(mContext.getResources().getDrawable(favoriteId));
     }
 
     @Override
@@ -121,6 +129,12 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.BaseViewHold
         TextView tvRelativeTime;
         @BindView(R.id.tvBody)
         TextView tvBody;
+        @BindView(R.id.ivFavorite)
+        ImageView ivFavorite;
+        @BindView(R.id.ivReply)
+        ImageView ivReply;
+        @BindView(R.id.ivRetweet)
+        ImageView ivRetweet;
 
         public BaseViewHolder(View itemView) {
             super(itemView);
@@ -132,6 +146,36 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.BaseViewHold
                     if (mListener != null) {
                         int position = getAdapterPosition();
                         mListener.onItemPhotoSelected(v, position);
+                    }
+                }
+            });
+
+            ivFavorite.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mListener != null) {
+                        int position = getAdapterPosition();
+                        mListener.onItemFavoriteSelected(v, position);
+                    }
+                }
+            });
+
+            ivReply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mListener != null) {
+                        int position = getAdapterPosition();
+                        mListener.onItemReplySelected(v, position);
+                    }
+                }
+            });
+
+            ivRetweet.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mListener != null) {
+                        int position = getAdapterPosition();
+                        mListener.onItemRetweetSelected(v, position);
                     }
                 }
             });

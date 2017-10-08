@@ -36,6 +36,7 @@ public class TimelineActivity extends AppCompatActivity implements TweetsListFra
         setContentView(R.layout.activity_timeline);
         ButterKnife.bind(this);
 
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
         vpPager.setAdapter(new TweetsPagerAdapter(getSupportFragmentManager(), TimelineActivity.this));
         tlTabs.setupWithViewPager(vpPager);

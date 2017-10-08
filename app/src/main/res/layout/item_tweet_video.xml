@@ -33,4 +33,12 @@
         android:visibility="visible"
         app:srcCompat="@color/colorPrimaryDark" />
 
+    <include
+        layout="@layout/tweet_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/vvTweetVideo"
+        android:layout_alignStart="@id/vvTweetVideo"
+        android:layout_alignEnd="@id/vvTweetVideo" />
+
 </RelativeLayout>

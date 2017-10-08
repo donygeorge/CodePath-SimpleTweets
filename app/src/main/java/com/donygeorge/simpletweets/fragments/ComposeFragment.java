@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.donygeorge.simpletweets.R;
+import com.donygeorge.simpletweets.models.Tweet;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,17 +25,23 @@ public class ComposeFragment extends DialogFragment {
     Button btCompose;
 
     private ComposeFragmentListener mListener;
-    private static final String TEXT_KEY = "text";
+    private static final String TEXT_KEY = "text_key";
+    private static final String REPLY_HANDLE_KEY = "reply_handle_key";
+    private static final String REPLY_ID_KEY = "reply_id_key";
 
     public ComposeFragment() {
         // Required empty public constructor
     }
 
-    public static  ComposeFragment newInstance(String text) {
+    public static  ComposeFragment newInstance(String text, Tweet retweet) {
         ComposeFragment fragment = new ComposeFragment();
         Bundle args = new Bundle();
         if (text != null) {
             args.putString(TEXT_KEY, text);
+        }
+        if (retweet != null) {
+            args.putLong(REPLY_ID_KEY, retweet.uid);
+            args.putString(REPLY_HANDLE_KEY, retweet.user.screenName);
         }
         fragment.setArguments(args);
         return fragment;
@@ -51,16 +58,23 @@ public class ComposeFragment extends DialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         String text = getArguments().getString(TEXT_KEY);
-        if (text != null) {
-            etTweet.setText(text);
+        final long inReplyTo = getArguments().getLong(REPLY_ID_KEY, -1);
+        String inReplyToHandle = getArguments().getString(REPLY_HANDLE_KEY);
+        if (text == null) {
+            text = "";
         }
+        if (inReplyToHandle != null) {
+            text = "@" + inReplyToHandle + " " + text;
+        }
+        etTweet.setText(text);
+        etTweet.setSelection(text.length());
 
         btCompose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = etTweet.getText().toString();
                 if (text.length() <= 140) {
-                    mListener.postTweet(text);
+                    mListener.postTweet(text, inReplyTo);
                     etTweet.setText("");
                     dismiss();
                 }
@@ -88,6 +102,6 @@ public class ComposeFragment extends DialogFragment {
     }
 
     public interface ComposeFragmentListener {
-        void postTweet(String text);
+        void postTweet(String text, long retweetId);
     }
 }

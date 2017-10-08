@@ -32,4 +32,11 @@
         android:layout_alignEnd="@id/include"
         app:srcCompat="@color/colorPrimaryDark" />
 
+    <include
+        layout="@layout/tweet_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ivTweetImage"
+        android:layout_alignStart="@id/ivTweetImage"
+        android:layout_alignEnd="@id/ivTweetImage" />
 </RelativeLayout>

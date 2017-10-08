@@ -27,6 +27,21 @@ public class Tweet extends BaseModel {
     public String createdAt;
 
     @Column
+    public int replyCount;
+
+    @Column
+    public int retweetCount;
+
+    @Column
+    public int favoriteCount;
+
+    @Column
+    public boolean retweeted;
+
+    @Column
+    public boolean favorited;
+
+    @Column
     @ForeignKey(saveForeignKeyModel = true)
     public User user;
 
@@ -44,6 +59,11 @@ public class Tweet extends BaseModel {
         tweet.uid = object.getLong("id");
         tweet.createdAt = object.getString("created_at");
         tweet.user = User.fromJSON(object.getJSONObject("user"));
+        tweet.favoriteCount = object.optInt("favorite_count", 0);
+        tweet.replyCount = object.optInt("reply_count", 0);
+        tweet.retweetCount = object.optInt("retweet_count", 0);
+        tweet.retweeted = object.getBoolean("retweeted");
+        tweet.favorited = object.getBoolean("favorited");
 
         if (object.has(EXTENDED_ENTITIES_KEY)) {
             JSONObject entities = object.getJSONObject(EXTENDED_ENTITIES_KEY);
