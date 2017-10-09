@@ -52,12 +52,6 @@ Here's a walkthrough of implemented user stories:
 
 GIF created with [ezgif](https://ezgif.com/video-to-gif).
 
-## Open-source libraries used
-
-- [Android Async HTTP](https://github.com/loopj/android-async-http) - Simple asynchronous HTTP requests with JSON parsing
-- [Glide](https://github.com/bumptech/glide) - Image loading and caching library for Android
-- [ButterKnife](https://github.com/JakeWharton/butterknife) - Bind Android views and callbacks to fields and methods 
-
 # Project 3 - *SimpleTweets*
 
 **SimpleTweets** is an android app that allows a user to view his Twitter timeline and post a new tweet. The app utilizes [Twitter REST API](https://developer.twitter.com/en/docs/api-reference-index).
@@ -120,6 +114,10 @@ GIF created with [ezgif](https://ezgif.com/video-to-gif).
 - [Android Async HTTP](https://github.com/loopj/android-async-http) - Simple asynchronous HTTP requests with JSON parsing
 - [Glide](https://github.com/bumptech/glide) - Image loading and caching library for Android
 - [ButterKnife](https://github.com/JakeWharton/butterknife) - Bind Android views and callbacks to fields and methods 
+- [DBFlow](https://github.com/Raizlabs/DBFlow) - Database helper
+- [android-oauth-handler](https://github.com/codepath/android-oauth-handler) - OAuth wrapper
+- [Parceler](https://github.com/johncarl81/parceler) - Helper to serialize objects
+- [circleimageview](https://github.com/hdodenhof/CircleImageView) - Circular Image view
 
 ## License
 
