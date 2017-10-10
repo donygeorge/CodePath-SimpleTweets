@@ -42,6 +42,7 @@ The following **additional** features are implemented:
 
 * [x] User can see if the profile is verified
 * [x] User can see if they are following an account
+* [x] Use ButterKnife for data binding
 
 ## Video Walkthrough
 
